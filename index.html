@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Birthday Surprise 🎂</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins',sans-serif;
+}
+
+body{
+background:linear-gradient(135deg,#0f172a,#1e293b,#334155);
+color:white;
+overflow-x:hidden;
+}
+
+/* LOCK SCREEN */
+#lock-screen{
+position:fixed;
+inset:0;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+text-align:center;
+background:linear-gradient(135deg,#020617,#0f172a,#1e293b);
+z-index:9999;
+padding:20px;
+}
+
+#lock-screen h1{
+font-size:3rem;
+color:#60a5fa;
+margin-bottom:10px;
+}
+
+#lock-screen p{
+color:#cbd5e1;
+margin-bottom:30px;
+}
+
+.timer{
+display:flex;
+gap:15px;
+flex-wrap:wrap;
+justify-content:center;
+}
+
+.time-box{
+background:rgba(255,255,255,.08);
+padding:20px;
+border-radius:15px;
+min-width:90px;
+}
+
+.time-box h2{
+color:#38bdf8;
+font-size:2rem;
+}
+
+/* MAIN PAGE */
+.hidden{display:none;}
+
+.hero{
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+flex-direction:column;
+text-align:center;
+padding:20px;
+}
+
+.hero h1{
+font-size:clamp(2.5rem,6vw,5rem);
+background:linear-gradient(90deg,#60a5fa,#38bdf8,#c084fc);
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
+}
+
+.hero p{
+max-width:700px;
+margin-top:20px;
+font-size:1.1rem;
+color:#dbeafe;
+}
+
+/* DAYS LEFT */
+#daysLeftText{
+margin-top:15px;
+color:#38bdf8;
+font-weight:600;
+}
+
+/* BUTTON */
+.btn{
+margin-top:30px;
+padding:15px 35px;
+border:none;
+border-radius:50px;
+background:linear-gradient(45deg,#3b82f6,#8b5cf6);
+color:white;
+cursor:pointer;
+font-weight:600;
+transition:.3s;
+}
+
+.btn:hover{
+transform:scale(1.05);
+}
+
+/* REVEAL */
+.reveal{
+opacity:0;
+transform:translateY(30px);
+transition:1s ease;
+}
+
+.reveal.show{
+opacity:1;
+transform:translateY(0);
+}
+
+/* STAR */
+.star{
+position:fixed;
+top:-20px;
+pointer-events:none;
+animation:fall linear forwards;
+}
+
+@keyframes fall{
+to{
+transform:translateY(110vh);
+opacity:0;
+}
+}
+
+/* CANVAS */
+canvas{
+position:fixed;
+top:0;
+left:0;
+pointer-events:none;
+z-index:9998;
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- LOCK SCREEN -->
+<div id="lock-screen">
+<h1>🎂 Surprise Loading...</h1>
+<p>Unlocks on <b>14th July</b></p>
+
+<div class="timer">
+<div class="time-box"><h2 id="d">0</h2><p>Days</p></div>
+<div class="time-box"><h2 id="h">0</h2><p>Hours</p></div>
+<div class="time-box"><h2 id="m">0</h2><p>Minutes</p></div>
+<div class="time-box"><h2 id="s">0</h2><p>Seconds</p></div>
+</div>
+</div>
+
+<canvas id="fireworks"></canvas>
+
+<!-- MAIN -->
+<div id="main" class="hidden">
+
+<section class="hero">
+
+<h1>Happy Birthday Bestie 🎂</h1>
+
+<h2 id="daysLeftText"></h2>
+
+<p id="msg" class="reveal">
+You are special 💙
+</p>
+
+<button class="btn" onclick="showSurprise()">
+Open Surprise 🎁
+</button>
+
+</section>
+
+</div>
+
+<audio id="music" src="birthday.mp3"></audio>
+
+<script>
+
+/* ================= TARGET DATE ================= */
+const target = new Date("2026-07-14T00:00:00").getTime();
+
+/* ================= DAILY WISHES ================= */
+const wishes = [
+"You are a blessing in my life 💙",
+"Keep shining like a star ✨",
+"Happiness looks better on you 😊",
+"You make life brighter 🎉",
+"Stay amazing always 💖",
+"More smiles, more love 🎂"
+];
+
+function getTodayWish(){
+let today = new Date().toDateString();
+let hash = 0;
+for(let i=0;i<today.length;i++){
+hash += today.charCodeAt(i);
+}
+return wishes[hash % wishes.length];
+}
+
+/* ================= COUNTDOWN ================= */
+function update(){
+
+const now = new Date().getTime();
+const diff = target - now;
+
+if(diff <= 0){
+unlock();
+return;
+}
+
+document.getElementById("d").innerText = Math.floor(diff/(1000*60*60*24));
+document.getElementById("h").innerText = Math.floor((diff%(1000*60*60*24))/(1000*60*60));
+document.getElementById("m").innerText = Math.floor((diff%(1000*60*60))/(1000*60));
+document.getElementById("s").innerText = Math.floor((diff%(1000*60))/1000);
+
+updateDaysLeft();
+}
+
+setInterval(update,1000);
+update();
+
+/* ================= DAYS LEFT ================= */
+function updateDaysLeft(){
+const now = new Date();
+const diff = target - now;
+const days = Math.ceil(diff/(1000*60*60*24));
+
+document.getElementById("daysLeftText").innerText =
+days > 0 ? `${days} days left 🎂` : "It's Birthday Time 🎉";
+}
+
+/* ================= UNLOCK ================= */
+function unlock(){
+
+document.getElementById("lock-screen").style.display="none";
+document.getElementById("main").classList.remove("hidden");
+
+/* daily wish */
+document.getElementById("msg").innerText = getTodayWish();
+
+/* music */
+document.getElementById("music").play().catch(()=>{});
+
+/* effects */
+startFireworks();
+setInterval(createStar,200);
+}
+
+/* ================= SURPRISE ================= */
+function showSurprise(){
+document.getElementById("msg").classList.add("show");
+}
+
+/* ================= STARS ================= */
+function createStar(){
+const star = document.createElement("div");
+star.className="star";
+star.innerHTML="✨";
+
+star.style.left=Math.random()*100+"vw";
+star.style.fontSize=(Math.random()*20+10)+"px";
+star.style.animationDuration=(Math.random()*4+4)+"s";
+
+document.body.appendChild(star);
+setTimeout(()=>star.remove(),8000);
+}
+
+/* ================= FIREWORKS ================= */
+const canvas=document.getElementById("fireworks");
+const ctx=canvas.getContext("2d");
+
+canvas.width=window.innerWidth;
+canvas.height=window.innerHeight;
+
+let particles=[];
+
+function Firework(x,y){
+this.particles=[];
+for(let i=0;i<60;i++){
+this.particles.push({
+x,y,
+vx:(Math.random()-0.5)*6,
+vy:(Math.random()-0.5)*6,
+alpha:1
+});
+}
+}
+
+function startFireworks(){
+setInterval(()=>{
+particles.push(new Firework(Math.random()*canvas.width,Math.random()*canvas.height/2));
+},800);
+
+animate();
+}
+
+function animate(){
+ctx.fillStyle="rgba(0,0,0,0.15)";
+ctx.fillRect(0,0,canvas.width,canvas.height);
+
+particles.forEach(fw=>{
+fw.particles.forEach(p=>{
+p.x+=p.vx;
+p.y+=p.vy;
+p.alpha-=0.01;
+
+ctx.fillStyle=`rgba(255,255,255,${p.alpha})`;
+ctx.fillRect(p.x,p.y,3,3);
+});
+});
+
+requestAnimationFrame(animate);
+}
+
+</script>
+
+</body>
+</html>
