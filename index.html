@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Birthday Surprise 🎂</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
 *{
@@ -16,325 +16,453 @@ font-family:'Poppins',sans-serif;
 }
 
 body{
-background:linear-gradient(135deg,#0f172a,#1e293b,#334155);
+min-height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+padding:20px;
+overflow:hidden;
+background:#050816;
+position:relative;
 color:white;
-overflow-x:hidden;
 }
 
-/* LOCK SCREEN */
-#lock-screen{
+/* Aurora Background */
+body::before{
+content:'';
+position:absolute;
+width:800px;
+height:800px;
+background:radial-gradient(circle,#3b82f655,transparent 70%);
+top:-250px;
+left:-250px;
+animation:float1 15s ease-in-out infinite;
+}
+
+body::after{
+content:'';
+position:absolute;
+width:700px;
+height:700px;
+background:radial-gradient(circle,#8b5cf655,transparent 70%);
+bottom:-250px;
+right:-250px;
+animation:float2 18s ease-in-out infinite;
+}
+
+@keyframes float1{
+50%{
+transform:translate(120px,80px);
+}
+}
+
+@keyframes float2{
+50%{
+transform:translate(-120px,-80px);
+}
+}
+
+/* Floating Particles */
+.particles{
 position:fixed;
 inset:0;
-display:flex;
-flex-direction:column;
-justify-content:center;
-align-items:center;
-text-align:center;
-background:linear-gradient(135deg,#020617,#0f172a,#1e293b);
-z-index:9999;
-padding:20px;
+background-image:
+radial-gradient(rgba(255,255,255,.2) 1px, transparent 1px);
+background-size:40px 40px;
+animation:particlesMove 20s linear infinite;
+pointer-events:none;
 }
 
-#lock-screen h1{
+@keyframes particlesMove{
+from{
+transform:translateY(0);
+}
+to{
+transform:translateY(-120px);
+}
+}
+
+/* Card */
+.container{
+position:relative;
+z-index:2;
+width:100%;
+max-width:850px;
+padding:45px;
+border-radius:30px;
+background:rgba(255,255,255,.05);
+backdrop-filter:blur(30px);
+border:1px solid rgba(255,255,255,.08);
+box-shadow:
+0 10px 40px rgba(0,0,0,.5),
+0 0 50px rgba(59,130,246,.15);
+text-align:center;
+}
+
+/* Heading */
+h1{
 font-size:3rem;
-color:#60a5fa;
+font-weight:700;
 margin-bottom:10px;
-}
-
-#lock-screen p{
-color:#cbd5e1;
-margin-bottom:30px;
-}
-
-.timer{
-display:flex;
-gap:15px;
-flex-wrap:wrap;
-justify-content:center;
-}
-
-.time-box{
-background:rgba(255,255,255,.08);
-padding:20px;
-border-radius:15px;
-min-width:90px;
-}
-
-.time-box h2{
-color:#38bdf8;
-font-size:2rem;
-}
-
-/* MAIN PAGE */
-.hidden{display:none;}
-
-.hero{
-height:100vh;
-display:flex;
-justify-content:center;
-align-items:center;
-flex-direction:column;
-text-align:center;
-padding:20px;
-}
-
-.hero h1{
-font-size:clamp(2.5rem,6vw,5rem);
-background:linear-gradient(90deg,#60a5fa,#38bdf8,#c084fc);
+background:linear-gradient(
+90deg,
+#60a5fa,
+#a78bfa,
+#38bdf8,
+#60a5fa
+);
+background-size:300%;
 -webkit-background-clip:text;
 -webkit-text-fill-color:transparent;
+animation:shine 8s linear infinite;
 }
 
-.hero p{
-max-width:700px;
-margin-top:20px;
-font-size:1.1rem;
-color:#dbeafe;
+@keyframes shine{
+to{
+background-position:300%;
+}
 }
 
-/* DAYS LEFT */
-#daysLeftText{
-margin-top:15px;
+.subtitle{
+color:#cbd5e1;
+margin-bottom:35px;
+font-size:1rem;
+}
+
+/* Countdown */
+.timer{
+display:flex;
+justify-content:center;
+flex-wrap:wrap;
+gap:18px;
+margin-bottom:35px;
+}
+
+.box{
+min-width:120px;
+padding:22px;
+border-radius:22px;
+background:rgba(255,255,255,.05);
+border:1px solid rgba(255,255,255,.08);
+backdrop-filter:blur(20px);
+transition:.4s;
+}
+
+.box:hover{
+transform:translateY(-8px) scale(1.05);
+box-shadow:
+0 0 20px rgba(56,189,248,.25),
+0 0 50px rgba(139,92,246,.2);
+}
+
+.box h2{
+font-size:2.3rem;
 color:#38bdf8;
-font-weight:600;
+font-weight:700;
 }
 
-/* BUTTON */
+.box p{
+margin-top:5px;
+font-size:.9rem;
+color:#cbd5e1;
+}
+
+/* Button */
 .btn{
-margin-top:30px;
-padding:15px 35px;
+position:relative;
+overflow:hidden;
+padding:16px 40px;
 border:none;
-border-radius:50px;
-background:linear-gradient(45deg,#3b82f6,#8b5cf6);
+border-radius:60px;
+background:linear-gradient(
+135deg,
+#3b82f6,
+#8b5cf6
+);
 color:white;
-cursor:pointer;
+font-size:1rem;
 font-weight:600;
-transition:.3s;
+cursor:pointer;
+transition:.4s;
+}
+
+.btn::before{
+content:'';
+position:absolute;
+top:0;
+left:-100%;
+width:100%;
+height:100%;
+background:linear-gradient(
+90deg,
+transparent,
+rgba(255,255,255,.4),
+transparent
+);
+transition:.8s;
+}
+
+.btn:hover::before{
+left:100%;
 }
 
 .btn:hover{
-transform:scale(1.05);
+transform:translateY(-3px);
+box-shadow:0 15px 40px rgba(59,130,246,.4);
 }
 
-/* REVEAL */
-.reveal{
+/* Result */
+#result{
+margin-top:30px;
 opacity:0;
-transform:translateY(30px);
-transition:1s ease;
+transform:translateY(25px);
+transition:.6s;
 }
 
-.reveal.show{
+#result.show{
 opacity:1;
 transform:translateY(0);
 }
 
-/* STAR */
-.star{
-position:fixed;
-top:-20px;
-pointer-events:none;
-animation:fall linear forwards;
+.wish-card{
+padding:22px;
+border-radius:20px;
+background:rgba(255,255,255,.06);
+border:1px solid rgba(255,255,255,.08);
+backdrop-filter:blur(20px);
+font-size:1.2rem;
+line-height:1.7;
 }
 
-@keyframes fall{
-to{
-transform:translateY(110vh);
-opacity:0;
-}
+/* Responsive */
+@media(max-width:768px){
+
+.container{
+padding:30px 20px;
 }
 
-/* CANVAS */
-canvas{
-position:fixed;
-top:0;
-left:0;
-pointer-events:none;
-z-index:9998;
+h1{
+font-size:2.2rem;
 }
 
+.box{
+min-width:95px;
+}
+
+.box h2{
+font-size:1.8rem;
+}
+}
 </style>
 </head>
 
 <body>
 
-<!-- LOCK SCREEN -->
-<div id="lock-screen">
-<h1>🎂 Surprise Loading...</h1>
-<p>Unlocks on <b>14th July</b></p>
+<div class="particles"></div>
+
+<div class="container">
+
+<h1>🎂 Birthday Surprise</h1>
+
+<div class="subtitle">
+A special surprise unlocks on <b>14 July 2026</b> 💙
+</div>
 
 <div class="timer">
-<div class="time-box"><h2 id="d">0</h2><p>Days</p></div>
-<div class="time-box"><h2 id="h">0</h2><p>Hours</p></div>
-<div class="time-box"><h2 id="m">0</h2><p>Minutes</p></div>
-<div class="time-box"><h2 id="s">0</h2><p>Seconds</p></div>
+
+<div class="box">
+<h2 id="d">0</h2>
+<p>Days</p>
 </div>
+
+<div class="box">
+<h2 id="h">0</h2>
+<p>Hours</p>
 </div>
 
-<canvas id="fireworks"></canvas>
+<div class="box">
+<h2 id="m">0</h2>
+<p>Minutes</p>
+</div>
 
-<!-- MAIN -->
-<div id="main" class="hidden">
+<div class="box">
+<h2 id="s">0</h2>
+<p>Seconds</p>
+</div>
 
-<section class="hero">
+</div>
 
-<h1>Happy Birthday Bestie 🎂</h1>
-
-<h2 id="daysLeftText"></h2>
-
-<p id="msg" class="reveal">
-You are special 💙
-</p>
-
-<button class="btn" onclick="showSurprise()">
-Open Surprise 🎁
+<button class="btn" onclick="revealWish()">
+🎁 Reveal Today's Surprise
 </button>
 
-</section>
+<div id="result"></div>
 
 </div>
 
-<audio id="music" src="birthday.mp3"></audio>
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
 
 <script>
 
-/* ================= TARGET DATE ================= */
-const target = new Date("2026-07-14T00:00:00").getTime();
+/* ==========================
+   Birthday Countdown Script
+   ========================== */
 
-/* ================= DAILY WISHES ================= */
+// Birthday Date (July 14, 2026)
+const targetDate = new Date("2026-07-14T00:00:00");
+
+/* Daily Countdown Messages */
 const wishes = [
-"You are a blessing in my life 💙",
-"Keep shining like a star ✨",
-"Happiness looks better on you 😊",
-"You make life brighter 🎉",
-"Stay amazing always 💖",
-"More smiles, more love 🎂"
+    "💙 The countdown begins, but the gratitude for having a friend like you started long ago and never ends.",
+    "✨ Every day brings us closer to celebrating someone who makes ordinary moments unforgettable.",
+    "🌷 Some people come into our lives and quietly make everything better; you're one of them.",
+    "🎉 Counting down to the day the world received a truly beautiful soul.",
+    "🌟 Friendship feels a little more magical because you're part of my life.",
+    "💖 No matter how many days pass, some people remain special forever.",
+    "🌸 Every memory we share becomes a story worth smiling about.",
+    "🎂 The countdown continues, but so does my appreciation for having you as my best friend.",
+    "💙 Life has many blessings, and your friendship is one of the greatest.",
+    "✨ Some friendships are written in fate, and I'm thankful ours is one of them.",
+    "🌷 Another day closer to celebrating the person who brings happiness wherever they go.",
+    "🎉 Your kindness, laughter, and friendship make every day brighter.",
+    "🌟 Three weeks until we celebrate someone who deserves all the happiness in the world.",
+    "💖 True friends are rare treasures, and I'm lucky to have found one.",
+    "🌸 Every day of this countdown reminds me how grateful I am for our friendship.",
+    "🎂 Some people make life better simply by being in it.",
+    "💙 The world became a little brighter the day you arrived.",
+    "✨ Your friendship is a gift that keeps making life beautiful.",
+    "🌷 Halfway there, and every day makes the celebration feel closer and more exciting.",
+    "🎉 Two weeks until we celebrate someone who deserves endless smiles.",
+    "🌟 Every memory with you is a chapter I'll always cherish.",
+    "💖 Some friendships grow stronger with time, and ours is one of them.",
+    "🌸 The countdown gets shorter, but the reasons you're special keep growing.",
+    "🎂 Double digits today, single digits tomorrow, and celebration very soon.",
+    "💙 Every passing day adds another reason to smile about your special day.",
+    "✨ The wait is getting shorter for someone who means so much.",
+    "🌷 One week left until a day as wonderful as you.",
+    "🎉 Excitement is quietly building for someone truly unforgettable.",
+    "🌟 Only a few sunrises left before your special day arrives.",
+    "💖 Happiness is counting down alongside the days now.",
+    "🌸 The wait is almost over, and the excitement is impossible to hide.",
+    "🎂 Just a little longer until a day filled with smiles and celebrations.",
+    "💙 Tomorrow is a reminder of how lucky the world is to have you in it.",
+    "🎉 Happy Birthday! May your day be filled with love, laughter, beautiful memories, and all the happiness your heart can hold. 💙🎂✨"
 ];
 
-function getTodayWish(){
-let today = new Date().toDateString();
-let hash = 0;
-for(let i=0;i<today.length;i++){
-hash += today.charCodeAt(i);
-}
-return wishes[hash % wishes.length];
-}
+/* Get Days Remaining */
+function getDaysLeft() {
+    const today = new Date();
 
-/* ================= COUNTDOWN ================= */
-function update(){
+    const currentDate = new Date(
+        today.getFullYear(),
+        today.getMonth(),
+        today.getDate()
+    );
 
-const now = new Date().getTime();
-const diff = target - now;
+    const birthdayDate = new Date(
+        targetDate.getFullYear(),
+        targetDate.getMonth(),
+        targetDate.getDate()
+    );
 
-if(diff <= 0){
-unlock();
-return;
-}
-
-document.getElementById("d").innerText = Math.floor(diff/(1000*60*60*24));
-document.getElementById("h").innerText = Math.floor((diff%(1000*60*60*24))/(1000*60*60));
-document.getElementById("m").innerText = Math.floor((diff%(1000*60*60))/(1000*60));
-document.getElementById("s").innerText = Math.floor((diff%(1000*60))/1000);
-
-updateDaysLeft();
+    return Math.floor(
+        (birthdayDate - currentDate) / (1000 * 60 * 60 * 24)
+    );
 }
 
-setInterval(update,1000);
-update();
+/* Get Today's Message */
+function getTodayWish() {
+    const daysLeft = getDaysLeft();
 
-/* ================= DAYS LEFT ================= */
-function updateDaysLeft(){
-const now = new Date();
-const diff = target - now;
-const days = Math.ceil(diff/(1000*60*60*24));
+    // Birthday Day
+    if (daysLeft === 0) {
+        return "🎉 Happy Birthday, Madhuri! May your day be filled with love, laughter, happiness, and unforgettable memories. 💙🎂✨";
+    }
 
-document.getElementById("daysLeftText").innerText =
-days > 0 ? `${days} days left 🎂` : "It's Birthday Time 🎉";
+    // Before countdown begins
+    if (daysLeft > wishes.length) {
+        return "✨ Every day brings us closer to celebrating the wonderful person you are, Madhuri.";
+    }
+
+    // Show correct countdown message
+    return wishes[wishes.length - daysLeft - 1];
 }
 
-/* ================= UNLOCK ================= */
-function unlock(){
+/* Update Countdown */
+function updateCountdown() {
+    const now = new Date().getTime();
+    const distance = targetDate.getTime() - now;
 
-document.getElementById("lock-screen").style.display="none";
-document.getElementById("main").classList.remove("hidden");
+    // Birthday reached
+    if (distance <= 0) {
 
-/* daily wish */
-document.getElementById("msg").innerText = getTodayWish();
+        document.querySelector(".timer").innerHTML = `
+            <h2 style="color:#60a5fa">
+                🎂 Happy Birthday Madhuri! 🎉
+            </h2>
+        `;
 
-/* music */
-document.getElementById("music").play().catch(()=>{});
+        clearInterval(timerInterval);
+        return;
+    }
 
-/* effects */
-startFireworks();
-setInterval(createStar,200);
+    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+    const hours = Math.floor(
+        (distance % (1000 * 60 * 60 * 24)) /
+        (1000 * 60 * 60)
+    );
+    const minutes = Math.floor(
+        (distance % (1000 * 60 * 60)) /
+        (1000 * 60)
+    );
+    const seconds = Math.floor(
+        (distance % (1000 * 60)) /
+        1000
+    );
+
+    document.getElementById("d").textContent = days;
+    document.getElementById("h").textContent = hours;
+    document.getElementById("m").textContent = minutes;
+    document.getElementById("s").textContent = seconds;
 }
 
-/* ================= SURPRISE ================= */
-function showSurprise(){
-document.getElementById("msg").classList.add("show");
+/* Reveal Daily Message */
+function revealWish() {
+
+    const result = document.getElementById("result");
+
+    result.innerHTML = `
+        <div class="wish-card">
+            ${getTodayWish()}
+        </div>
+    `;
+
+    result.classList.add("show");
+
+    // Run confetti only if library exists
+    if (typeof confetti === "function") {
+
+        confetti({
+            particleCount: 120,
+            spread: 90,
+            origin: { y: 0.6 }
+        });
+
+        setTimeout(() => {
+            confetti({
+                particleCount: 80,
+                spread: 120
+            });
+        }, 300);
+    }
 }
 
-/* ================= STARS ================= */
-function createStar(){
-const star = document.createElement("div");
-star.className="star";
-star.innerHTML="✨";
-
-star.style.left=Math.random()*100+"vw";
-star.style.fontSize=(Math.random()*20+10)+"px";
-star.style.animationDuration=(Math.random()*4+4)+"s";
-
-document.body.appendChild(star);
-setTimeout(()=>star.remove(),8000);
-}
-
-/* ================= FIREWORKS ================= */
-const canvas=document.getElementById("fireworks");
-const ctx=canvas.getContext("2d");
-
-canvas.width=window.innerWidth;
-canvas.height=window.innerHeight;
-
-let particles=[];
-
-function Firework(x,y){
-this.particles=[];
-for(let i=0;i<60;i++){
-this.particles.push({
-x,y,
-vx:(Math.random()-0.5)*6,
-vy:(Math.random()-0.5)*6,
-alpha:1
-});
-}
-}
-
-function startFireworks(){
-setInterval(()=>{
-particles.push(new Firework(Math.random()*canvas.width,Math.random()*canvas.height/2));
-},800);
-
-animate();
-}
-
-function animate(){
-ctx.fillStyle="rgba(0,0,0,0.15)";
-ctx.fillRect(0,0,canvas.width,canvas.height);
-
-particles.forEach(fw=>{
-fw.particles.forEach(p=>{
-p.x+=p.vx;
-p.y+=p.vy;
-p.alpha-=0.01;
-
-ctx.fillStyle=`rgba(255,255,255,${p.alpha})`;
-ctx.fillRect(p.x,p.y,3,3);
-});
-});
-
-requestAnimationFrame(animate);
-}
+/* Start Countdown */
+const timerInterval = setInterval(updateCountdown, 1000);
+updateCountdown();
 
 </script>
+
 
 </body>
 </html>
