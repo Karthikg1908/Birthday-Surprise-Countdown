@@ -309,48 +309,50 @@ A special surprise unlocks on <b>14 July 2026</b> 💙
    ========================== */
 
 // Birthday Date (July 14, 2026)
-const targetDate = new Date("2026-07-14T00:00:00");
+const targetDate = new Date(2026, 6, 14, 0, 0, 0);
 
-/* Daily Countdown Messages */
-const wishes = [
-    "💙 The countdown begins, but the gratitude for having a friend like you started long ago and never ends.",
-    "✨ Every day brings us closer to celebrating someone who makes ordinary moments unforgettable.",
-    "🌷 Some people come into our lives and quietly make everything better; you're one of them.",
-    "🎉 Counting down to the day the world received a truly beautiful soul.",
-    "🌟 Friendship feels a little more magical because you're part of my life.",
-    "💖 No matter how many days pass, some people remain special forever.",
-    "🌸 Every memory we share becomes a story worth smiling about.",
-    "🎂 The countdown continues, but so does my appreciation for having you as my best friend.",
-    "💙 Life has many blessings, and your friendship is one of the greatest.",
-    "✨ Some friendships are written in fate, and I'm thankful ours is one of them.",
-    "🌷 Another day closer to celebrating the person who brings happiness wherever they go.",
-    "🎉 Your kindness, laughter, and friendship make every day brighter.",
-    "🌟 Three weeks until we celebrate someone who deserves all the happiness in the world.",
-    "💖 True friends are rare treasures, and I'm lucky to have found one.",
-    "🌸 Every day of this countdown reminds me how grateful I am for our friendship.",
-    "🎂 Some people make life better simply by being in it.",
-    "💙 The world became a little brighter the day you arrived.",
-    "✨ Your friendship is a gift that keeps making life beautiful.",
-    "🌷 Halfway there, and every day makes the celebration feel closer and more exciting.",
-    "🎉 Two weeks until we celebrate someone who deserves endless smiles.",
-    "🌟 Every memory with you is a chapter I'll always cherish.",
-    "💖 Some friendships grow stronger with time, and ours is one of them.",
-    "🌸 The countdown gets shorter, but the reasons you're special keep growing.",
-    "🎂 Double digits today, single digits tomorrow, and celebration very soon.",
-    "💙 Every passing day adds another reason to smile about your special day.",
-    "✨ The wait is getting shorter for someone who means so much.",
-    "🌷 One week left until a day as wonderful as you.",
-    "🎉 Excitement is quietly building for someone truly unforgettable.",
-    "🌟 Only a few sunrises left before your special day arrives.",
-    "💖 Happiness is counting down alongside the days now.",
-    "🌸 The wait is almost over, and the excitement is impossible to hide.",
-    "🎂 Just a little longer until a day filled with smiles and celebrations.",
-    "💙 Tomorrow is a reminder of how lucky the world is to have you in it.",
-    "🎉 Happy Birthday! May your day be filled with love, laughter, beautiful memories, and all the happiness your heart can hold. 💙🎂✨"
-];
+/* Messages By Days Left */
+const wishes = {
+    34: "💙 test.",
+    33: "💙 The countdown begins, but the gratitude for having a friend like you started long ago and never ends.",
+    32: "✨ The countdown begins, but the gratitude for having a friend like you started long ago and never ends",
+    31: "🌷 Some people come into our lives and quietly make everything better; you're one of them.",
+    30: "🎉 Counting down to the day the world received a truly beautiful soul.",
+    29: "🌟 Friendship feels a little more magical because you're part of my life.",
+    28: "💖 No matter how many days pass, some people remain special forever.",
+    27: "🌸 Every memory we share becomes a story worth smiling about.",
+    26: "🎂 The countdown continues, but so does my appreciation for having you as my best friend.",
+    25: "💙 Life has many blessings, and your friendship is one of the greatest.",
+    24: "✨ Some friendships are written in fate, and I'm thankful ours is one of them.",
+    23: "🌷 Another day closer to celebrating the person who brings happiness wherever they go.",
+    22: "🎉 Your kindness, laughter, and friendship make every day brighter.",
+    21: "🌟 Three weeks until we celebrate someone who deserves all the happiness in the world.",
+    20: "💖 True friends are rare treasures, and I'm lucky to have found one.",
+    19: "🌸 Every day of this countdown reminds me how grateful I am for our friendship.",
+    18: "🎂 Some people make life better simply by being in it.",
+    17: "💙 The world became a little brighter the day you arrived.",
+    16: "✨ Your friendship is a gift that keeps making life beautiful.",
+    15: "🌷 Halfway there, and every day makes the celebration feel closer and more exciting.",
+    14: "🎉 Two weeks until we celebrate someone who deserves endless smiles.",
+    13: "🌟 Every memory with you is a chapter I'll always cherish.",
+    12: "💖 Some friendships grow stronger with time, and ours is one of them.",
+    11: "🌸 The countdown gets shorter, but the reasons you're special keep growing.",
+    10: "🎂 Double digits today, single digits tomorrow, and celebration very soon.",
+    9: "💙 Every passing day adds another reason to smile about your special day.",
+    8: "✨ The wait is getting shorter for someone who means so much.",
+    7: "🌷 One week left until a day as wonderful as you.",
+    6: "🎉 Excitement is quietly building for someone truly unforgettable.",
+    5: "🌟 Only a few sunrises left before your special day arrives.",
+    4: "💖 Happiness is counting down alongside the days now.",
+    3: "🌸 The wait is almost over, and the excitement is impossible to hide.",
+    2: "🎂 Just a little longer until a day filled with smiles and celebrations.",
+    1: "💙 Tomorrow is a reminder of how lucky the world is to have you in it.",
+    0: "🎉 Happy Birthday! May your day be filled with love, laughter, beautiful memories, and all the happiness your heart can hold. 💙🎂✨"
+};
 
 /* Get Days Remaining */
 function getDaysLeft() {
+
     const today = new Date();
 
     const currentDate = new Date(
@@ -366,34 +368,29 @@ function getDaysLeft() {
     );
 
     return Math.floor(
-        (birthdayDate - currentDate) / (1000 * 60 * 60 * 24)
+        (birthdayDate - currentDate) /
+        (1000 * 60 * 60 * 24)
     );
 }
 
 /* Get Today's Message */
 function getTodayWish() {
+
     const daysLeft = getDaysLeft();
 
-    // Birthday Day
-    if (daysLeft === 0) {
-        return "🎉 Happy Birthday, Madhuri! May your day be filled with love, laughter, happiness, and unforgettable memories. 💙🎂✨";
+    if (wishes.hasOwnProperty(daysLeft)) {
+        return wishes[daysLeft];
     }
 
-    // Before countdown begins
-    if (daysLeft > wishes.length) {
-        return "✨ Every day brings us closer to celebrating the wonderful person you are, Madhuri.";
-    }
-
-    // Show correct countdown message
-    return wishes[wishes.length - daysLeft - 1];
+    return "✨ Every day brings us closer to celebrating the wonderful person you are, Madhuri.";
 }
 
 /* Update Countdown */
 function updateCountdown() {
+
     const now = new Date().getTime();
     const distance = targetDate.getTime() - now;
 
-    // Birthday reached
     if (distance <= 0) {
 
         document.querySelector(".timer").innerHTML = `
@@ -406,18 +403,22 @@ function updateCountdown() {
         return;
     }
 
-    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+    const days = Math.floor(
+        distance / (1000 * 60 * 60 * 24)
+    );
+
     const hours = Math.floor(
         (distance % (1000 * 60 * 60 * 24)) /
         (1000 * 60 * 60)
     );
+
     const minutes = Math.floor(
         (distance % (1000 * 60 * 60)) /
         (1000 * 60)
     );
+
     const seconds = Math.floor(
-        (distance % (1000 * 60)) /
-        1000
+        (distance % (1000 * 60)) / 1000
     );
 
     document.getElementById("d").textContent = days;
@@ -437,9 +438,12 @@ function revealWish() {
         </div>
     `;
 
-    result.classList.add("show");
+    result.classList.remove("show");
 
-    // Run confetti only if library exists
+    setTimeout(() => {
+        result.classList.add("show");
+    }, 50);
+
     if (typeof confetti === "function") {
 
         confetti({
